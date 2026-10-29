@@ -82,7 +82,7 @@ footer{padding:26px var(--pad);display:flex;justify-content:space-between;border
 .ov-head h2{font-family:var(--serif);font-weight:300;font-size:clamp(46px,8vw,140px);line-height:.95;letter-spacing:-.03em}
 .ov-head p{font-size:clamp(14px,1.15vw,17px);line-height:1.75;color:#cfccc6}
 .ov-meta{display:flex;gap:30px;margin-top:22px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-.gal{padding:0 var(--pad) 80px;display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(14px,2vw,30px);align-items:start}
+.gal{max-width:1500px;margin:0 auto;grid-auto-flow:dense;padding:0 var(--pad) 80px;display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(14px,2vw,30px);align-items:start}
 .gal figure{overflow:hidden;background:#1d1d1d}
 .gal figure img{width:100%;height:auto;display:block;transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
 .gal figure.vid{display:flex;justify-content:center;background:transparent}.gal figure.vid video{width:auto;max-width:100%;max-height:85vh;height:auto;display:block;background:#000}
@@ -245,7 +245,7 @@ function openP(i){
     f.className=((String(n).startsWith('of:'))?'w12':(/^\d+w$/.test(String(n))?'w8 plan':pattern[k2%pattern.length]))+' reveal';k2++;
     if(String(n).startsWith('vv:')){const v=document.createElement('video');v.src=src(n);v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute('playsinline','');v.preload='metadata';f.className='w4 vv reveal';f.appendChild(v);vio.observe(v);gal.appendChild(f);io.observe(f);return}
     if(String(n).startsWith('vid:')){const v=document.createElement('video');v.src=src(n);v.muted=true;v.loop=true;v.autoplay=true;v.playsInline=true;v.setAttribute('playsinline','');v.controls=false;f.className='w12 vid reveal';f.appendChild(v);f.addEventListener('click',()=>{v.muted=!v.muted;v.controls=true});gal.appendChild(f);io.observe(f);return}
-    const im=document.createElement('img');im.src=src(n);im.loading='lazy';im.alt=p.t;
+    const im=document.createElement('img');im.src=src(n);im.loading='lazy';im.alt=p.t;im.onload=()=>{if(f.classList.contains('plan')||String(n).startsWith('of:'))return;const r=im.naturalWidth/im.naturalHeight;f.classList.remove('w4','w5','w6','w7','w8','w12');f.classList.add(r>2.1?'w12':r>1.15?'w8':r>0.9?'w6':'w4')};
     f.appendChild(im);f.addEventListener('click',()=>{lb.querySelector('img').src=im.src;lb.classList.add('on')});
     gal.appendChild(f);io.observe(f);
   });
